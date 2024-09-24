@@ -1,163 +1,165 @@
 ﻿#include <iostream>
 #include <string>
-#include <cstdlib> // dla rand() i srand()
-#include <ctime>   // dla time()
-#include <thread>  // dla std::this_thread::sleep_for
-#include <chrono>  // dla std::chrono::seconds
-#include <vector>  // dla std::vector
+#include <cstdlib> // for rand() and srand()
+#include <ctime>   // for time()
+#include <thread>  // for std::this_thread::sleep_for
+#include <chrono>  // for std::chrono::seconds
+#include <vector>  // for std::vector
 
 using namespace std;
 
-// Struktura dla jednostki
-struct Jednostka {
-    string nazwa;
-    int punktySily;
+// Structure for a unit
+struct Unit {
+    string name;
+    int strengthPoints;
 };
 
-// Struktura dla armii
-struct Armia {
-    vector<pair<Jednostka, int>> jednostki; // para jednostka + ilość
+// Structure for an army
+struct Army {
+    vector<pair<Unit, int>> units; // pair of unit + quantity
 };
 
-// Funkcja symulująca bitwę między dwiema armiami
-void symulujBitwe(Armia a, Armia b) {
+// Function to simulate a battle between two armies
+void simulateBattle(Army a, Army b) {
     cout << "=======================" << endl;
-    cout << "Bitwa pomiedzy armiami!" << endl;
+    cout << "Battle between armies!" << endl;
 
-    // Obliczanie całkowitej siły jednostek
-    int calkowitaSilaA = 0;
-    int calkowitaSilaB = 0;
+    // Calculating total strength of units
+    int totalStrengthA = 0;
+    int totalStrengthB = 0;
 
-    for (auto &j : a.jednostki) {
-        calkowitaSilaA += j.first.punktySily * j.second;
-    }
-    
-    for (auto &j : b.jednostki) {
-        calkowitaSilaB += j.first.punktySily * j.second;
+    for (auto& j : a.units) {
+        totalStrengthA += j.first.strengthPoints * j.second;
     }
 
-    int sumaSily = calkowitaSilaA + calkowitaSilaB;
+    for (auto& j : b.units) {
+        totalStrengthB += j.first.strengthPoints * j.second;
+    }
 
-    // Obliczanie procentowych szans
-    double szansaA = static_cast<double>(calkowitaSilaA) / sumaSily * 100;
-    double szansaB = static_cast<double>(calkowitaSilaB) / sumaSily * 100;
+    int totalStrength = totalStrengthA + totalStrengthB;
 
-    // Wyświetlenie procentowych szans
-    cout << "Armia A ma " << szansaA << "% szans na zwyciestwo." << endl;
-    cout << "Armia B ma " << szansaB << "% szans na zwyciestwo." << endl;
+    // Calculating percentage chances
+    double chanceA = static_cast<double>(totalStrengthA) / totalStrength * 100;
+    double chanceB = static_cast<double>(totalStrengthB) / totalStrength * 100;
 
-    // Losowanie liczby z zakresu od 0 do 100
-    int los = rand() % 101;
+    // Displaying percentage chances
+    cout << "Army A has " << chanceA << "% chance of winning." << endl;
+    cout << "Army B has " << chanceB << "% chance of winning." << endl;
+
+    // Random number from 0 to 100
+    int randomValue = rand() % 101;
 
     cout << "=======================" << endl;
-    cout << "Trwa bitwa";
-    // Symulacja bitwy z opóźnieniem
+    cout << "The battle is underway";
+    // Simulating battle with delay
     for (int i = 0; i < 3; ++i) {
         cout << ".";
-        this_thread::sleep_for(chrono::seconds(1)); // 1-sekundowa przerwa
+        this_thread::sleep_for(chrono::seconds(1)); // 1-second pause
     }
     cout << endl;
 
-    // Wyznaczanie zwycięzcy na podstawie losowania
-    if (los <= szansaA) {
-        cout << "Armia A wygrywa!" << endl;
+    // Determining the winner based on the random draw
+    if (randomValue <= chanceA) {
+        cout << "Army A wins!" << endl;
     }
     else {
-        cout << "Armia B wygrywa!" << endl;
+        cout << "Army B wins!" << endl;
     }
     cout << "=======================" << endl;
 }
 
 int main() {
-    // Ustawienie generatora liczb losowych
-    srand(static_cast<unsigned int>(time(nullptr))); // inicjalizacja generatora
+    // Setting up the random number generator
+    srand(static_cast<unsigned int>(time(nullptr))); // initializing the generator
 
     cout << "=======================" << endl;
-    cout << "     Witamy w grze      " << endl;
+    cout << "     Welcome to the game      " << endl;
     cout << "=======================" << endl;
 
-    // Tworzenie jednostek
-    Jednostka rycerz = { "Rycerz", 10 };
-    Jednostka kawalerzysta = { "Kawalerzysta", 9 };
-    Jednostka halabardzista = { "Halabardzista", 7 };
-    Jednostka topornik = { "Topornik", 6 };
-    Jednostka wlocznik = { "Wlocznik", 5 };
-    Jednostka lucznik = { "Lucznik", 4 };
-    Jednostka wekiernik = { "Wekiernik", 3 };
+    // Creating units
+    Unit knight = { "Knight", 10 };
+    Unit cavalryman = { "Cavalryman", 9 };
+    Unit halberdier = { "Halberdier", 7 };
+    Unit axeman = { "Axeman", 6 };
+    Unit spearman = { "Spearman", 5 };
+    Unit archer = { "Archer", 4 };
+    Unit pikeman = { "Pikeman", 3 };
 
-    // Lista jednostek
-    Jednostka jednostki[] = { rycerz, kawalerzysta, halabardzista, topornik, wlocznik, lucznik, wekiernik };
-    int liczbaJednostek = sizeof(jednostki) / sizeof(jednostki[0]);
+    // List of units
+    Unit units[] = { knight, cavalryman, halberdier, axeman, spearman, archer, pikeman };
+    int numberOfUnits = sizeof(units) / sizeof(units[0]);
 
-    char wyborKontynuacji;
+    char continueChoice;
 
     do {
         cout << "=======================" << endl;
-        cout << "Budowanie armii A:" << endl;
-        Armia armiaA;
-        int iloscTypowA;
+        cout << "Building Army A:" << endl;
+        Army armyA;
+        int numberOfTypesA;
 
-        cout << "Ile typow jednostek chcesz dodac do armii A? ";
-        cin >> iloscTypowA;
+        cout << "How many types of units do you want to add to Army A? ";
+        cin >> numberOfTypesA;
 
-        for (int i = 0; i < iloscTypowA; ++i) {
-            int wybor;
-            int ilosc;
+        for (int i = 0; i < numberOfTypesA; ++i) {
+            int choice;
+            int quantity;
 
-            cout << "Wybierz jednostke (numer): " << endl;
-            for (int j = 0; j < liczbaJednostek; ++j) {
-                cout << j + 1 << ". " << jednostki[j].nazwa << " (Punkty sily: " << jednostki[j].punktySily << ")" << endl;
+            cout << "Choose a unit (number): " << endl;
+            for (int j = 0; j < numberOfUnits; ++j) {
+                cout << j + 1 << ". " << units[j].name << " (Strength Points: " << units[j].strengthPoints << ")" << endl;
             }
-            cin >> wybor;
-            cout << "Podaj ilosc jednostek " << jednostki[wybor - 1].nazwa << ": ";
-            cin >> ilosc;
+            cin >> choice;
+            cout << "Enter the quantity of unit " << units[choice - 1].name << ": ";
+            cin >> quantity;
 
-            if (wybor < 1 || wybor > liczbaJednostek || ilosc <= 0) {
-                cout << "Niepoprawny wybor jednostki lub ilosci!" << endl;
-                i--; // Powtarzamy iterację
-            } else {
-                armiaA.jednostki.push_back(make_pair(jednostki[wybor - 1], ilosc));
+            if (choice < 1 || choice > numberOfUnits || quantity <= 0) {
+                cout << "Invalid unit choice or quantity!" << endl;
+                i--; // Repeat iteration
+            }
+            else {
+                armyA.units.push_back(make_pair(units[choice - 1], quantity));
             }
         }
 
         cout << "=======================" << endl;
-        cout << "Budowanie armii B:" << endl;
-        Armia armiaB;
-        int iloscTypowB;
+        cout << "Building Army B:" << endl;
+        Army armyB;
+        int numberOfTypesB;
 
-        cout << "Ile typow jednostek chcesz dodac do armii B? ";
-        cin >> iloscTypowB;
+        cout << "How many types of units do you want to add to Army B? ";
+        cin >> numberOfTypesB;
 
-        for (int i = 0; i < iloscTypowB; ++i) {
-            int wybor;
-            int ilosc;
+        for (int i = 0; i < numberOfTypesB; ++i) {
+            int choice;
+            int quantity;
 
-            cout << "Wybierz jednostke (numer): " << endl;
-            for (int j = 0; j < liczbaJednostek; ++j) {
-                cout << j + 1 << ". " << jednostki[j].nazwa << " (Punkty sily: " << jednostki[j].punktySily << ")" << endl;
+            cout << "Choose a unit (number): " << endl;
+            for (int j = 0; j < numberOfUnits; ++j) {
+                cout << j + 1 << ". " << units[j].name << " (Strength Points: " << units[j].strengthPoints << ")" << endl;
             }
-            cin >> wybor;
-            cout << "Podaj ilosc jednostek " << jednostki[wybor - 1].nazwa << ": ";
-            cin >> ilosc;
+            cin >> choice;
+            cout << "Enter the quantity of unit " << units[choice - 1].name << ": ";
+            cin >> quantity;
 
-            if (wybor < 1 || wybor > liczbaJednostek || ilosc <= 0) {
-                cout << "Niepoprawny wybor jednostki lub ilosci!" << endl;
-                i--; // Powtarzamy iterację
-            } else {
-                armiaB.jednostki.push_back(make_pair(jednostki[wybor - 1], ilosc));
+            if (choice < 1 || choice > numberOfUnits || quantity <= 0) {
+                cout << "Invalid unit choice or quantity!" << endl;
+                i--; // Repeat iteration
+            }
+            else {
+                armyB.units.push_back(make_pair(units[choice - 1], quantity));
             }
         }
 
-        // Symulacja bitwy
-        symulujBitwe(armiaA, armiaB);
+        // Simulating the battle
+        simulateBattle(armyA, armyB);
 
-        // Pytanie o kontynuacje
-        cout << "Czy chcesz powtorzyc bitwe? (t/n): ";
-        cin >> wyborKontynuacji;
+        // Asking if the user wants to continue
+        cout << "Do you want to repeat the battle? (y/n): ";
+        cin >> continueChoice;
 
-    } while (wyborKontynuacji == 't' || wyborKontynuacji == 'T');
+    } while (continueChoice == 'y' || continueChoice == 'Y');
 
-    cout << "Dziekujemy za gre!" << endl;
+    cout << "Thank you for playing!" << endl;
 
     return 0;
 }
