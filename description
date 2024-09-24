@@ -1,0 +1,33 @@
+Army Battle Simulation
+Description
+
+    This project is a simulator for battles between two armies, allowing users to create their own armies by selecting different 
+    military units and their quantities. Each unit is assigned strength points that influence their chances of winning in battle.
+
+    I wanted to create a project that differs from most games by not simply showing that a unit with higher strength and health always wins. 
+    Instead, I aimed to demonstrate that even a weaker unit always has a chance to emerge victorious. This project serves to illustrate 
+    how this technology works, and I plan to continue developing it further, integrating it into the game I am creating.
+
+Features
+
+    Army Creation: Users can build two armies by selecting various types of units and their quantities.
+    Battle Simulation: After building the armies, the program calculates the winning chances for each army and randomly selects a winner based on those probabilities.
+    Interactivity: Users have the option to continue the game and organize additional battles.
+
+Technologies
+
+    C++ (C++ compiler)
+    Standard C++ Libraries: iostream, string, vector, ctime, thread
+
+Example
+
+Upon starting the program, users will be prompted to enter the number of unit types for both armies, as well as their selections and quantities. 
+The program will calculate the winning chances and display the battle results.
+
+Contribution
+
+Any ideas and suggestions for the development of the project are welcome. You can report issues or propose features through the "Issues" tab.
+
+License
+
+This project is licensed under the MIT License. See the LICENSE file for more information.
